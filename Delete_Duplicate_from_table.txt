@@ -1,0 +1,38 @@
+/*
+Question
+1. How to delete duplicate records from a table
+*/
+
+---DDL for table creation
+create table tblduplicate 
+(
+id int identity(1,1),
+first_name varchar(10),
+last_name varchar(10)
+
+)
+
+
+---DML for inserting data into the table
+insert into tblduplicate 
+values
+('Shubham','Sinha'),
+('Rakesh','Singh'),
+('Saurabh','Kumar'),
+('Shubham','Agrawal'),
+('Shubham','Sinha'),
+('Sachin','Tendulkar'),
+('Shubham','Agrawal')
+
+
+--Query to display Data
+Select * from tblduplicate
+
+--Query to delete duplicate values
+with cte
+as
+(
+select*,rank() over(partition by first_name,last_name order by id) as rn from tblduplicate
+)
+
+delete from cte where rn>1;
